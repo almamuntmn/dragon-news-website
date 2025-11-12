@@ -9,7 +9,7 @@ const Categories = () => {
 
     return (
         <div>
-            <h1 className='font-semibold'>All Categories ({categories.length})</h1>
+            <h1 className='font-semibold'>All Categories</h1>
             <div className='grid grid-cols-1 mt-5 gap-3'>
                 {
                     categories.map(category => <NavLink key={category.id}
