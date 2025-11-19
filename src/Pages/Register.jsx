@@ -1,10 +1,13 @@
 import React, { use, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { AuthContext } from '../provider/AuthProvider';
+import { useNavigate } from 'react-router';
 
 const Register = () => {
     const [error, setError] = useState("");
-    const { createUser, setUser } = use(AuthContext);
+
+    const navigate = useNavigate();
+    const { createUser, setUser, updateUserData } = use(AuthContext);
     const handleRegister = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -34,7 +37,13 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const user = result.user;
-                setUser(user);
+                updateUserData({ displayName: name, photoURL: photoUrl }).then(() => {
+                    setUser({...user, displayName: name, photoURL: photoUrl});
+                    navigate('/');
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
             })
             .catch((error) => {
                 const errorCode = error.code;
