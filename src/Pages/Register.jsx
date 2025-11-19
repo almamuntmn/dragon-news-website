@@ -1,16 +1,35 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { AuthContext } from '../provider/AuthProvider';
 
 const Register = () => {
+    const [error, setError] = useState("");
     const { createUser, setUser } = use(AuthContext);
     const handleRegister = (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
+        if (name.length < 3) {
+            setError("Name must be at least 3 characters");
+            return;
+        } else {
+            setError("");
+        }
         const photoUrl = form.photoUrl.value;
         const email = form.email.value;
+        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            setError("Please provide a valid email");
+            return;
+        } else {
+            setError("");
+        }
         const password = form.password.value;
+        if (password.length < 6) {
+            setError("Password must be at least 6 characters");
+            return;
+        }else{
+            setError("");
+        }
         console.log(name, photoUrl, email, password);
         createUser(email, password)
             .then(result => {
@@ -49,6 +68,10 @@ const Register = () => {
                 </button>
 
                 <p className='mt-3 text-center'>Already have an account? <a href="/auth/login" className='text-secondary'>Login</a></p>
+
+                {
+                    error && <p className='text-red-500'>Please provide a valid name, email, and password</p>
+                }
 
             </form>
         </div>
