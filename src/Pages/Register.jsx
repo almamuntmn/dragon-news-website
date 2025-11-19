@@ -33,7 +33,7 @@ const Register = () => {
         }else{
             setError("");
         }
-        console.log(name, photoUrl, email, password);
+        // console.log(name, photoUrl, email, password);
         createUser(email, password)
             .then(result => {
                 const user = result.user;
